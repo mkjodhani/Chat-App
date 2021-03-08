@@ -49,7 +49,7 @@ public class Main extends Application
         VBox mainVbox  = new VBox(50,GossipLabel,choiceButton,Close);
         mainVbox.setAlignment(Pos.CENTER);
         BorderPane.setAlignment(mainVbox, Pos.CENTER);
-        BorderPane.setMargin(mainVbox, new Insets(primaryStage.getHeight()*0.25,primaryStage.getWidth()*0.25,primaryStage.getHeight()*0.25,primaryStage.getWidth()*0.25));
+        borderPane.setBackground(new Background(new BackgroundImage(BackgroundImage,BackgroundRepeat.NO_REPEAT,null,BackgroundPosition.CENTER,null)));
         borderPane.setCenter(mainVbox);
         borderPane.setAlignment(mainVbox,Pos.CENTER);
         Close.setOnAction(new EventHandler<ActionEvent>() {

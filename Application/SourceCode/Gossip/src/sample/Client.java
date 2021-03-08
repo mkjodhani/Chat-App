@@ -92,7 +92,7 @@ public class Client implements Runnable
             Label message = new Label("Messgae :");
             text.setTextAlignment(TextAlignment.CENTER);
 
-            HBox hBox = new HBox(text,client,message,msg,send,sendFile);
+            HBox hBox = new HBox(text,client,message,msg,send);
             hBox.setStyle("-fx-background: white; -fx-background-color: white; ");
             hBox.setAlignment(Pos.CENTER);
             VBox vBox = new VBox();
@@ -137,7 +137,7 @@ public class Client implements Runnable
                 {
                     try
                     {
-                        String To = client.getSelectionModel().getSelectedItem().trim();
+                        String To = "To : "+ client.getSelectionModel().getSelectedItem().trim();
                         String mssg = msg.getText().trim();
                         clientSocket.sendData(encoder(hostname.trim(),client.getSelectionModel().getSelectedItem().trim(),msg.getText()));
 

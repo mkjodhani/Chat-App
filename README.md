@@ -1,4 +1,3 @@
-# Advance Java Programming
-## Projects based on Advance Features of Java
-
-- Chat Application (GOSSIP)
+# Chat Application 
+- [Installer](Installer/Installer.jar)
+- [Chat Application](Application/Artifacts/linux/Gossip_jar/Gossip.jar)

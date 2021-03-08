@@ -28,7 +28,6 @@ public class Authentication
             printWriter.println(message);
             input.nextLine().trim();
             String incoming = input.nextLine().trim();
-            System.out.println(incoming + "!---done");
             if (incoming.equals("done"))
             {
                 Valid = 1;

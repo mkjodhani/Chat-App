@@ -1,15 +1,13 @@
-# Chat Application (GOSSIP)
+# **GOSSIP**
 
-![Linux](https://github.com/mkjodhani/Projects/raw/main/Advance%20Java%20Programming/Chat%20Application/Artifacts/linux/Gossip_jar/Gossip.jar)
-[Windows](https://github.com/mkjodhani/Projects/raw/main/Advance%20Java%20Programming/Chat%20Application/Artifacts/windows/Gossip_jar/Gossip.jar)
+[Linux Application](Artifacts/Gossip.jar)
 
 ## Main Commitment
 ### *App will provide basic features like,*
 - Sign-Up
 - Sign-In
-- Send and Recieve Messages.
-- Notify unseen messages.
-- View Online Friends.
+- Send and Receive Messages.
+- User Authentication
 
 #### Start Date
 January 31st, 2020.
