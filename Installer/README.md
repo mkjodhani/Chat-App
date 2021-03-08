@@ -12,4 +12,7 @@
 4. Once you download the Chat Application,After that you can use direct Launch button to use App. 
 
 ## Demo
+
+![Installer](src/installer.png)
+
 [![SC2 Video](src/Demo.gif)](https://youtu.be/jeikvlhgctI)

@@ -28,18 +28,19 @@ public class Database
     }
     public boolean logIn(String username,String password)
     {
+        boolean result  = false;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet =  statement.executeQuery("SELECT PASS FROM USERS WHERE USERNAME = \""+username+"\";");
             if (resultSet.isClosed())
-                return false;
+                return result;
             else if (resultSet.getString(1).trim().equals(passwordHash(password)))
-                return  true;
+                result = true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return  false;
+            return  result;
         }
-        return  false;
+        return  result;
     }
     public ArrayList<String> getUsers()
     {

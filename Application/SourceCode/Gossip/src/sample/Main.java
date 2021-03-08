@@ -28,13 +28,14 @@ import java.util.Scanner;
 
 public class Main extends Application
 {
+    private InputStream fontFileQuest = getClass().getResourceAsStream("/font/Quest.otf");
     public Image BackgroundImage = new Image("/img/MAIN.png");
     private static HashMap<String, Socket> hashMap = new HashMap<>();
     String allMessages = null;
     @Override
     public void start(Stage primaryStage)
     {
-        Font GossipFont = Font.loadFont("file:src/font/Quest.otf",150);
+        Font GossipFont = Font.loadFont(fontFileQuest,150);
         Scene FirstScene = null;
         BorderPane borderPane = new BorderPane();
         Text GossipLabel = new Text("g0ss1p");
@@ -45,14 +46,14 @@ public class Main extends Application
         HBox choiceButton = new HBox(50,signInButton,signUpButton);
         choiceButton.setAlignment(Pos.CENTER);
 
-        Button Close = new Button("Close");
-        VBox mainVbox  = new VBox(50,GossipLabel,choiceButton,Close);
+        Button CloseButton = new Button("Close");
+        VBox mainVbox  = new VBox(50,GossipLabel,choiceButton,CloseButton);
         mainVbox.setAlignment(Pos.CENTER);
         BorderPane.setAlignment(mainVbox, Pos.CENTER);
         borderPane.setBackground(new Background(new BackgroundImage(BackgroundImage,BackgroundRepeat.NO_REPEAT,null,BackgroundPosition.CENTER,null)));
         borderPane.setCenter(mainVbox);
         borderPane.setAlignment(mainVbox,Pos.CENTER);
-        Close.setOnAction(new EventHandler<ActionEvent>() {
+        CloseButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 primaryStage.close();
@@ -63,20 +64,21 @@ public class Main extends Application
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setFullScreen(true);
         primaryStage.show();
-
         Scene finalFirstScene = FirstScene;
+
         signInButton.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
-            public void handle(ActionEvent actionEvent) {
-                Font GossipFont = Font.loadFont("file:src/font/Quest.otf",150);
+            public void handle(ActionEvent actionEvent)
+            {
+//                Font GossipFont = Font.loadFont("Segoe UI",150);
                 Scene mainScreen = null;
                 BorderPane borderPane = new BorderPane();
                 borderPane.setBackground(new Background(new BackgroundImage(BackgroundImage,BackgroundRepeat.NO_REPEAT,null,BackgroundPosition.CENTER,null)));
                 Text GossipLabel = new Text("g0ss1p");
                 GossipLabel.setFont(GossipFont);
                 Label logIn = new Label("Log In");
-                logIn.setFont(Font.loadFont("file:src/font/Quest.otf",50));
+                logIn.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Quest.otf"),24));
                 logIn.setTextFill(Color.RED);
                 //logIn.setTextFill(Paint.valueOf("white"));
                 logIn.setAlignment(Pos.CENTER);
@@ -92,11 +94,10 @@ public class Main extends Application
                 passwordLine.getChildren().addAll(passwordLabel,password);
                 passwordLine.setAlignment(Pos.CENTER);
 
-
                 Button logInButton = new Button("Sign In");
-                Button Close = new Button("Close");
+                Button CloseSignIn = new Button("Close");
                 VBox mainVbox  = new VBox();
-                HBox buttons = new HBox(30,logInButton,Close);
+                HBox buttons = new HBox(30,logInButton,CloseSignIn);
                 buttons.setAlignment(Pos.CENTER);
                 mainVbox.getChildren().addAll(GossipLabel,logIn,userLine,passwordLine,buttons);
                 mainVbox.setSpacing(20);
@@ -105,10 +106,11 @@ public class Main extends Application
                 BorderPane.setMargin(mainVbox, new Insets(primaryStage.getHeight()*0.25,primaryStage.getWidth()*0.25,primaryStage.getHeight()*0.25,primaryStage.getWidth()*0.25));
                 borderPane.setCenter(mainVbox);
                 borderPane.setAlignment(mainVbox,Pos.CENTER);
-                mainScreen = new Scene(borderPane,primaryStage.getMaxWidth(),primaryStage.getMaxHeight());
-                Close.setOnAction(new EventHandler<ActionEvent>() {
+                mainScreen = new Scene(borderPane,primaryStage.getWidth(),primaryStage.getHeight());
+                CloseSignIn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
-                    public void handle(ActionEvent actionEvent) {
+                    public void handle(ActionEvent actionEvent)
+                    {
                         primaryStage.setScene(finalFirstScene);
                         primaryStage.setFullScreen(true);
                         primaryStage.show();
@@ -219,6 +221,7 @@ public class Main extends Application
                     }
                 });
                 primaryStage.setScene(mainScreen);
+                primaryStage.setFullScreen(true);
             }
         });
 
@@ -226,7 +229,7 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent)
             {
-                Font GossipFont = Font.loadFont("file:src/font/Quest.otf",150);
+//                Font GossipFont = Font.loadFont("Segoe UI",150);
                 Scene mainScreen = null;
                 BorderPane borderPane = new BorderPane();
                 //BackgroundSize backgroundSize = new BackgroundSize(0,0,false,false,false,true);
@@ -234,7 +237,7 @@ public class Main extends Application
                 Text GossipLabel = new Text("g0ss1p");
                 GossipLabel.setFont(GossipFont);
                 Label logIn = new Label("Sign Up");
-                logIn.setFont(Font.loadFont("file:src/font/Quest.otf",50));
+                logIn.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Quest.otf"),50));
                 logIn.setTextFill(Color.RED);
                 //logIn.setTextFill(Paint.valueOf("white"));
                 logIn.setAlignment(Pos.CENTER);
@@ -261,10 +264,10 @@ public class Main extends Application
                 VBox passWords = new VBox(30,passwordLineOne,passwordLineTwo);
 
                 Button signUp = new Button("Sign Up");
-                Button Close = new Button("Close");
+                Button CloseSignUp = new Button("Close");
 
                 VBox mainVbox  = new VBox();
-                HBox buttons = new HBox(30,signUp,Close);
+                HBox buttons = new HBox(30,signUp,CloseSignUp);
                 buttons.setAlignment(Pos.CENTER);
                 mainVbox.getChildren().addAll(GossipLabel,logIn,userLine,passWords,buttons);
                 mainVbox.setSpacing(20);
@@ -274,9 +277,10 @@ public class Main extends Application
                 borderPane.setCenter(mainVbox);
                 borderPane.setAlignment(mainVbox,Pos.CENTER);
                 mainScreen = new Scene(borderPane,primaryStage.getWidth(),primaryStage.getHeight());
-                Close.setOnAction(new EventHandler<ActionEvent>() {
+                CloseSignUp.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
-                    public void handle(ActionEvent actionEvent) {
+                    public void handle(ActionEvent actionEvent)
+                    {
                         primaryStage.setScene(finalFirstScene);
                         primaryStage.setFullScreen(true);
                         primaryStage.show();
@@ -297,7 +301,7 @@ public class Main extends Application
                             String username = user.getText().trim();
                             String message = makeServiceSignUp(username,passwordHash(password));
                             try {
-                                socket = new Socket(InetAddress.getLocalHost(),8080);
+                                socket = new Socket("18.222.214.51",8080);
                                 if (socket.isConnected())
                                 {
                                     inputStream = socket.getInputStream();
@@ -336,6 +340,14 @@ public class Main extends Application
                                         });
                                         ErrorStage.setScene(Error);
                                         ErrorStage.show();
+                                    }
+                                    else
+                                    {
+
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setTitle("Error!");
+                                        alert.setContentText( username+"already exists!");
+                                        alert.show();
                                     }
                                 }
                                 else
@@ -390,7 +402,6 @@ public class Main extends Application
                     }
                 });
                 primaryStage.setScene(mainScreen);
-                //primaryStage.initStyle(StageStyle.UNDECORATED);
                 primaryStage.setFullScreen(true);
                 primaryStage.show();
             }

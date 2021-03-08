@@ -39,8 +39,6 @@ public class Client implements Runnable
     Text allMessage = null;
     private ClientSocket clientSocket;
 
-
-
     public Client(String hostname)
     {
         this.hostname = hostname;

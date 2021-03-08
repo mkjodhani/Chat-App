@@ -19,7 +19,7 @@ public class Authentication
     private int Valid;
     public Authentication(String username,String password) throws IOException {
         String message = makeServiceSignIn(username, passwordHash(password));
-        socket = new Socket(InetAddress.getLocalHost(), 8080);
+        socket = new Socket("18.222.214.51", 8080);
         if (socket.isConnected()) {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();

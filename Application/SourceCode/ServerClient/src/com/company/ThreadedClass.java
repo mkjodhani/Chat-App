@@ -119,9 +119,12 @@ public class ThreadedClass implements Runnable
                                         String password = getHostPassword(line);
                                         System.out.println("signUp : #" + username);
                                         System.out.println("signUp : #" + password);
-                                        database.addRecord(username,password);
+
                                         PrintWriter newWriter = new PrintWriter(new OutputStreamWriter(incomingSocket.getOutputStream(), StandardCharsets.UTF_8), true);
-                                        newWriter.println("done");
+                                        if(database.addRecord(username,password))
+                                            newWriter.println("done");
+                                        else
+                                            newWriter.println();
                                         break;
                                     case "signIn":
                                         String user = getHostName(line);
@@ -132,7 +135,7 @@ public class ThreadedClass implements Runnable
                                         if(database.logIn(user,pass))
                                             oldWriter.println("done");
                                         else
-                                            oldWriter.println("error");
+                                            oldWriter.println("notdone");
                                         break;
                                     default:
                                         System.out.println("New Service Appear..!");
