@@ -1,2 +1,4 @@
-# Chat-App
-Simple Chat Application using JavaFx,JDBC  and Socket Programming
+# Advance Java Programming
+## Projects based on Advance Features of Java
+
+- Chat Application (GOSSIP)
