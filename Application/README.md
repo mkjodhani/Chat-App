@@ -20,4 +20,4 @@ January 31st, 2020.
 5. After Closing the Chat-Window,you will automatically logged out from the system.
 
 ## Demo
-[![SC2 Video](src/Demo.gif)](https://youtu.be/jeikvlhgctI)
+[![SC2 Video](res/Demo.gif)](https://youtu.be/jeikvlhgctI)

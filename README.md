@@ -1,8 +1,8 @@
 # Chat Application 
 - [Installer](https://github.com/mkjodhani/Chat-App/raw/main/Installer.jar)
 
-![](Installer/src/installer.png)
+![](Installer/res/installer.png)
 
 - [Chat Application](https://github.com/mkjodhani/Chat-App/raw/main/Application/Artifacts/Gossip.jar)
 
-![](Application/src/Demo.gif)
+![](Application/res/Demo.gif)
