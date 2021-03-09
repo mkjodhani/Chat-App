@@ -1,3 +1,3 @@
 # Chat Application 
-- [Installer](Installer.jar)
-- [Chat Application](Application/Artifacts/Gossip.jar)
+- [Installer](https://github.com/mkjodhani/Chat-App/raw/main/Installer.jar)
+- [Chat Application](https://github.com/mkjodhani/Chat-App/raw/main/Application/Artifacts/Gossip.jar)
