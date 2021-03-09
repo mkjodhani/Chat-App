@@ -10,7 +10,6 @@ public class Start
     static {
         try {
             SERVER_ADDRESS = InetAddress.getLocalHost().getHostAddress();
-            SERVER_ADDRESS = "18.222.214.51";
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

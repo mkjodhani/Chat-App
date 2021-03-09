@@ -6,8 +6,10 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BackgroundPosition;
@@ -17,9 +19,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -27,25 +33,30 @@ import java.nio.file.Paths;
 
 public class Main extends Application
 {
-    private String URL = "https://raw.githubusercontent.com/mkjodhani/Projects/main/Advance%20Java%20Programming/Chat%20Application/Artifacts/linux/Gossip_jar/Gossip.jar";
+    private String URL = "https://github.com/mkjodhani/Chat-App/raw/main/Application/Artifacts/Gossip.jar";
     private String FILE_NAME = "Gossip.jar";
     private boolean already = false;
-    public Image backgroundImage = new Image("/img/BACK.jpeg");
+    public Image backgroundImage = new Image(getClass().getResourceAsStream("/img/BACK.jpeg"));
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+        Label label = new Label("Installer");
+        label.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Quest.otf"),100));
+        label.setTextFill(Paint.valueOf("#F2E276"));
         Download downloadFile = null;
         ProgressBar progressBar = new ProgressBar();
         progressBar.setPrefWidth(250);
         VBox vBox = new VBox(50);
         vBox.setPrefWidth(500);
         vBox.setPrefHeight(250);
-        BackgroundImage backgroundimage = new BackgroundImage(backgroundImage,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
-        vBox.setBackground(new Background(backgroundimage));
+
+        BackgroundSize size = new BackgroundSize(vBox.getWidth(),vBox.getHeight(), false, false, true, true);
+        BackgroundImage image = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size);
+        Background background = new Background(image);
+        vBox.setBackground(background);
+
+
         vBox.setAlignment(Pos.CENTER);
         Button button = new Button( "Download");
         Button close = new Button("Close");
@@ -88,15 +99,15 @@ public class Main extends Application
                 {
                     already = true;
                     button.setText("Launch");
-                    HBox hBox = new HBox(50, button,close);
+                    HBox hBox = new HBox(50,button,close);
                     hBox.setAlignment(Pos.CENTER);
-                    vBox.getChildren().addAll(hBox);
+                    vBox.getChildren().addAll(label, hBox);
                 }
             }catch (NoSuchFileException e)
             {
                 HBox hBox = new HBox(50, button,close);
                 hBox.setAlignment(Pos.CENTER);
-                vBox.getChildren().addAll(progressBar,hBox);
+                vBox.getChildren().addAll(label,progressBar,hBox);
             }
         } catch (Exception exception) {
             exception.printStackTrace();
