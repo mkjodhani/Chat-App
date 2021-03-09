@@ -71,6 +71,23 @@ public class Database
         }
         return false;
     }
+    public int removeRecord(String username,String password)
+    {
+        try {
+            Statement statement = connection.createStatement();
+            if(getUsers().contains(username))
+            {
+                if (statement.executeUpdate("DELETE FROM USERS  WHERE USERNAME = \""+username+"\" AND PASS = \""+passwordHash(password)+"\";") == 1)
+                    return 1;
+            }
+            else
+                return 0;
+        } catch (SQLException throwables)
+        {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
     public  void printDatabase()
     {
         Statement statement = null;

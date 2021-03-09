@@ -137,6 +137,24 @@ public class ThreadedClass implements Runnable
                                         else
                                             oldWriter.println("notdone");
                                         break;
+                                    case "delete":
+                                        System.out.println("DElte Service");
+                                        String usr = getHostName(line);
+                                        String psd = getHostPassword(line);
+                                        PrintWriter nWriter = new PrintWriter(new OutputStreamWriter(incomingSocket.getOutputStream(), StandardCharsets.UTF_8), true);
+                                        int flag = database.removeRecord(usr,psd);
+                                        System.out.println(flag);
+                                        if( flag == 1)
+                                        {
+                                            System.out.println("Delete User : #" + usr);
+                                            nWriter.println("done");
+                                            database.printDatabase();
+                                        }
+                                        else if (flag == 0)
+                                            nWriter.println("notexist");
+                                        else
+                                            nWriter.println("notdone");
+                                        break;
                                     default:
                                         System.out.println("New Service Appear..!");
                                 }

@@ -28,6 +28,7 @@ import java.util.Scanner;
 
 public class Main extends Application
 {
+    private static String SERVER_ADDR = Start.SERVER_ADDRESS;
     private InputStream fontFileQuest = getClass().getResourceAsStream("/font/Quest.otf");
     public Image BackgroundImage = new Image("/img/MAIN.png");
     private static HashMap<String, Socket> hashMap = new HashMap<>();
@@ -46,8 +47,12 @@ public class Main extends Application
         HBox choiceButton = new HBox(50,signInButton,signUpButton);
         choiceButton.setAlignment(Pos.CENTER);
 
+        Button Delete = new Button("Remove Account");
         Button CloseButton = new Button("Close");
-        VBox mainVbox  = new VBox(50,GossipLabel,choiceButton,CloseButton);
+
+        VBox closeAndDelete = new VBox(25,Delete,CloseButton);
+        closeAndDelete.setAlignment(Pos.CENTER);
+        VBox mainVbox  = new VBox(50,GossipLabel,choiceButton,closeAndDelete);
         mainVbox.setAlignment(Pos.CENTER);
         BorderPane.setAlignment(mainVbox, Pos.CENTER);
         borderPane.setBackground(new Background(new BackgroundImage(BackgroundImage,BackgroundRepeat.NO_REPEAT,null,BackgroundPosition.CENTER,null)));
@@ -71,14 +76,14 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent)
             {
-//                Font GossipFont = Font.loadFont("Segoe UI",150);
+
                 Scene mainScreen = null;
                 BorderPane borderPane = new BorderPane();
                 borderPane.setBackground(new Background(new BackgroundImage(BackgroundImage,BackgroundRepeat.NO_REPEAT,null,BackgroundPosition.CENTER,null)));
                 Text GossipLabel = new Text("g0ss1p");
                 GossipLabel.setFont(GossipFont);
                 Label logIn = new Label("Log In");
-                logIn.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Quest.otf"),24));
+                logIn.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Quest.otf"),50));
                 logIn.setTextFill(Color.RED);
                 //logIn.setTextFill(Paint.valueOf("white"));
                 logIn.setAlignment(Pos.CENTER);
@@ -145,6 +150,7 @@ public class Main extends Application
                             String username = user.getText().trim();
                             try {
                                 Authentication authentication = new Authentication(username,pass);
+                                authentication.authenticate();
                                 int valid = authentication.returnValid();
                                 if(valid == 1)
                                 {
@@ -224,12 +230,189 @@ public class Main extends Application
                 primaryStage.setFullScreen(true);
             }
         });
-
-        signUpButton.setOnAction(new EventHandler<ActionEvent>() {
+        Delete.setOnAction(new EventHandler<ActionEvent>()
+        {
             @Override
             public void handle(ActionEvent actionEvent)
             {
-//                Font GossipFont = Font.loadFont("Segoe UI",150);
+
+                Scene mainScreen = null;
+                BorderPane borderPane = new BorderPane();
+                borderPane.setBackground(new Background(new BackgroundImage(BackgroundImage,BackgroundRepeat.NO_REPEAT,null,BackgroundPosition.CENTER,null)));
+                Text GossipLabel = new Text("g0ss1p");
+                GossipLabel.setFont(GossipFont);
+                Label logIn = new Label("Rev0ve Acc0unt");
+                logIn.setFont(Font.loadFont(getClass().getResourceAsStream("/font/Quest.otf"),50));
+                logIn.setTextFill(Color.RED);
+                //logIn.setTextFill(Paint.valueOf("white"));
+                logIn.setAlignment(Pos.CENTER);
+                HBox userLine = new HBox();
+                Label username = new Label("Username        ");
+                TextField user = new TextField();
+                userLine.getChildren().addAll(username,user);
+                userLine.setAlignment(Pos.CENTER);
+
+                HBox passwordLine = new HBox();
+                Label passwordLabel = new Label("Password         ");
+                PasswordField password = new PasswordField();
+                passwordLine.getChildren().addAll(passwordLabel,password);
+                passwordLine.setAlignment(Pos.CENTER);
+
+                Button removeButton = new Button("Remove");
+                Button CloseRemove = new Button("Close");
+                VBox mainVbox  = new VBox();
+                HBox buttons = new HBox(30,removeButton,CloseRemove);
+                buttons.setAlignment(Pos.CENTER);
+                mainVbox.getChildren().addAll(GossipLabel,logIn,userLine,passwordLine,buttons);
+                mainVbox.setSpacing(20);
+                mainVbox.setAlignment(Pos.CENTER);
+                BorderPane.setAlignment(mainVbox, Pos.CENTER);
+                BorderPane.setMargin(mainVbox, new Insets(primaryStage.getHeight()*0.25,primaryStage.getWidth()*0.25,primaryStage.getHeight()*0.25,primaryStage.getWidth()*0.25));
+                borderPane.setCenter(mainVbox);
+                borderPane.setAlignment(mainVbox,Pos.CENTER);
+                mainScreen = new Scene(borderPane,primaryStage.getWidth(),primaryStage.getHeight());
+                CloseRemove.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent)
+                    {
+                        primaryStage.setScene(finalFirstScene);
+                        primaryStage.setFullScreen(true);
+                        primaryStage.show();
+                    }
+                });
+
+                removeButton.setOnAction(new EventHandler<ActionEvent>()
+                {
+                    @Override
+                    public void handle(ActionEvent event)
+                    {
+                        if (user.getText().trim().isBlank()) {
+                            Button OK = new Button("OK");
+                            Text errorMessage = new Text("Enter The Valid Name for Username...");
+                            VBox vBox = new VBox(20, errorMessage, OK);
+                            BorderPane borderPane1 = new BorderPane();
+                            vBox.setAlignment(Pos.CENTER);
+                            borderPane1.setCenter(vBox);
+                            Scene Error = new Scene(borderPane1, 500, 100);
+                            Stage ErrorStage = new Stage();
+                            OK.setOnAction(new EventHandler<ActionEvent>()
+                            {
+                                @Override
+                                public void handle(ActionEvent actionEvent) {
+                                    ErrorStage.close();
+                                }
+                            });
+                            ErrorStage.setScene(Error);
+                            ErrorStage.show();
+                        }
+                        else
+                        {
+                            String pass = password.getText().trim();
+                            String username = user.getText().trim();
+                            try {
+                                Authentication authentication = new Authentication(username,pass);
+                                authentication.authenticate();
+                                if(authentication.returnValid() == 1)
+                                {
+                                    authentication.removeMember();
+                                    int valid = authentication.getRemoved();
+                                    if(valid == 1)
+                                    {
+                                        Runnable runnable = new Runnable() {
+                                            @Override
+                                            public void run()
+                                            {
+                                                //process for successful delete
+                                                Button OK  = new Button("OK");
+                                                Label label = new Label("You have successfully deleted your account");
+                                                Label label1 = new Label("Thank you for getting in touch! \n\n");
+                                                Label label2 = new Label("We appreciate you contacting Gossip.\n\n");
+                                                Label label3 = new Label("\"Have a great day! \n\n");
+                                                VBox errorMessage = new VBox(10,label,label1,label2,label3);
+                                                errorMessage.setAlignment(Pos.CENTER);
+                                                VBox vBox = new VBox(20,errorMessage,OK);
+                                                BorderPane borderPane1 = new BorderPane();
+                                                vBox.setAlignment(Pos.CENTER);
+                                                borderPane1.setCenter(vBox);
+                                                Scene Error = new Scene(borderPane1,500,300);
+                                                Stage ErrorStage = new Stage();
+                                                OK.setOnAction(new EventHandler<ActionEvent>() {
+                                                    @Override
+                                                    public void handle(ActionEvent actionEvent) {
+                                                        ErrorStage.close();
+                                                    }
+                                                });
+                                                ErrorStage.setScene(Error);
+                                                ErrorStage.show();
+                                            }
+                                        };
+                                        Platform.runLater(runnable);
+                                    }
+                                    else if (valid == 0)
+                                    {
+                                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                                        alert.setTitle("Error!");
+                                        alert.setContentText("User doesn't exist yet!");
+                                        alert.show();
+                                    }
+                                    else
+                                    {
+                                        Button OK = new Button("OK");
+                                        Text errorMessage = new Text("Server is not accepting your request at this moment!");
+                                        VBox vBox = new VBox(20, errorMessage, OK);
+                                        BorderPane borderPane1 = new BorderPane();
+                                        vBox.setAlignment(Pos.CENTER);
+                                        borderPane1.setCenter(vBox);
+                                        Scene Error = new Scene(borderPane1, 500, 100);
+                                        Stage ErrorStage = new Stage();
+                                        OK.setOnAction(new EventHandler<ActionEvent>() {
+                                            @Override
+                                            public void handle(ActionEvent actionEvent) {
+                                                ErrorStage.close();
+                                            }
+                                        });
+                                        ErrorStage.setScene(Error);
+                                        ErrorStage.show();
+                                    }
+                                }
+                                else
+                                {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setTitle("Error!");
+                                    alert.setContentText("Enter The Right Password!!");
+                                    alert.show();
+                                }
+                            } catch (IOException e)
+                            {
+                                Button OK = new Button("OK");
+                                Text errorMessage = new Text("Server is not accepting your request at this moment!");
+                                VBox vBox = new VBox(20, errorMessage, OK);
+                                BorderPane borderPane1 = new BorderPane();
+                                vBox.setAlignment(Pos.CENTER);
+                                borderPane1.setCenter(vBox);
+                                Scene Error = new Scene(borderPane1, 500, 100);
+                                Stage ErrorStage = new Stage();
+                                OK.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent actionEvent) {
+                                        ErrorStage.close();
+                                    }
+                                });
+                                ErrorStage.setScene(Error);
+                                ErrorStage.show();
+                            }
+                        }
+                    }
+                });
+                primaryStage.setScene(mainScreen);
+                primaryStage.setFullScreen(true);
+            }
+        });
+        signUpButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent actionEvent)
+            {
                 Scene mainScreen = null;
                 BorderPane borderPane = new BorderPane();
                 //BackgroundSize backgroundSize = new BackgroundSize(0,0,false,false,false,true);
@@ -301,7 +484,7 @@ public class Main extends Application
                             String username = user.getText().trim();
                             String message = makeServiceSignUp(username,passwordHash(password));
                             try {
-                                socket = new Socket("18.222.214.51",8080);
+                                socket = new Socket(SERVER_ADDR,8080);
                                 if (socket.isConnected())
                                 {
                                     inputStream = socket.getInputStream();

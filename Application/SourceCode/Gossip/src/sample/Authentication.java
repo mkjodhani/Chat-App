@@ -1,9 +1,7 @@
 package sample;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -11,36 +9,27 @@ import java.util.Scanner;
 
 public class Authentication
 {
+    private static String SERVER_ADDR = Start.SERVER_ADDRESS;
+    private  String user,password;
     private Socket socket = null;
     private InputStream inputStream;
     private OutputStream outputStream;
     private Scanner input;
     private PrintWriter printWriter;
     private int Valid;
-    public Authentication(String username,String password) throws IOException {
-        String message = makeServiceSignIn(username, passwordHash(password));
-        socket = new Socket("18.222.214.51", 8080);
-        if (socket.isConnected()) {
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
-            input = new Scanner(inputStream, StandardCharsets.UTF_8);
-            printWriter = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
-            printWriter.println(message);
-            input.nextLine().trim();
-            String incoming = input.nextLine().trim();
-            if (incoming.equals("done"))
-            {
-                Valid = 1;
-            }
-            else
-            {
-                Valid = 0;
-            }
-        }
-        else
-        {
-            Valid = -1;
-        }
+    private int Removed;
+    public Authentication(String username,String password) throws IOException
+    {
+        this.Valid = -1;
+        this.Removed = -1;
+        this.user = username;
+        this.password = password;
+        socket = new Socket(SERVER_ADDR, 8080);
+        inputStream = socket.getInputStream();
+        outputStream = socket.getOutputStream();
+        input = new Scanner(inputStream, StandardCharsets.UTF_8);
+        printWriter = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
+
     }
     public  int returnValid()
     {
@@ -49,6 +38,10 @@ public class Authentication
     private String makeServiceSignIn(String username,String password)
     {
         return "#-*-#--"+username+"--signIn--"+password;
+    }
+    private String makeServiceRemove(String username,String password)
+    {
+        return "#-*-#--"+username+"--delete--"+password;
     }
     public String passwordHash(String str)
     {
@@ -66,5 +59,48 @@ public class Authentication
 
         }
         return  stringBuilder.toString();
+    }
+
+    public int getRemoved()
+    {
+        return Removed;
+    }
+
+    public void removeMember()
+    {
+        String message = makeServiceRemove(user, passwordHash(password));
+        if (socket.isConnected())
+        {
+            printWriter.println(message);
+            input.nextLine().trim();
+            String incoming = input.nextLine().trim();
+            if (incoming.equals("done"))
+                Removed = 1;
+            else if (incoming.equals("notexist"))
+                Removed = 0;
+            else
+                Removed = -1;
+        }
+    }
+    public void authenticate()
+    {
+        String message = makeServiceSignIn(user, passwordHash(password));
+        if (socket.isConnected()) {
+            printWriter.println(message);
+            input.nextLine().trim();
+            String incoming = input.nextLine().trim();
+            if (incoming.equals("done"))
+            {
+                Valid = 1;
+            }
+            else
+            {
+                Valid = 0;
+            }
+        }
+        else
+        {
+            Valid = -1;
+        }
     }
 }

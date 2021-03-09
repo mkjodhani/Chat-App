@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class ClientSocket
 {
+    private static String SERVER_ADDR = Start.SERVER_ADDRESS;
     private ArrayList<String> peerClients;
     private final String hostname;
     private Socket socket;
@@ -49,7 +50,7 @@ public class ClientSocket
         this.hostname = user;
         try
         {
-            socket = new Socket("18.222.214.51",8080);
+            socket = new Socket(SERVER_ADDR,8080);
             if (socket.isConnected())
             {
                 inputStream = socket.getInputStream();
