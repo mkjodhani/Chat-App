@@ -24,19 +24,12 @@ import java.util.regex.Pattern;
 
 public class Client implements Runnable
 {
-    private static final Pattern pattern = Pattern.compile("^(--)(\\S+)(--)(\\S+)--");
-    private static final Pattern  errorPattern = Pattern.compile("^(!!--!!)");
-    private static final Pattern servicePattern = Pattern.compile("^#-\\*-#--(\\S+)--(\\S+)--");
-    private static final Pattern filePattern = Pattern.compile("^\\*-\\*-\\*--(\\S+)--(\\S+)--");
-
     private static Font msgFont = Font.loadFont("file:src/font/TeachersStudent-Regular.ttf",30);
     private ScrollPane scrollPane = null;
-    //private String allMessages = "";
     private  String hostname;
     private VBox vBoxMessages;
     private Stage newWindow =null;
     private ComboBox<String> client = new ComboBox<String>();
-    Text allMessage = null;
     private ClientSocket clientSocket;
 
     public Client(String hostname)
@@ -326,4 +319,9 @@ public class Client implements Runnable
         backgroundThread.setDaemon(true);
         backgroundThread.start();
     }
+    public Socket getSocket()
+    {
+        return clientSocket.getSocket();
+    }
+
 }

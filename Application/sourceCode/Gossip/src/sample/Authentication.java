@@ -72,7 +72,6 @@ public class Authentication
         if (socket.isConnected())
         {
             printWriter.println(message);
-            input.nextLine().trim();
             String incoming = input.nextLine().trim();
             if (incoming.equals("done"))
                 Removed = 1;

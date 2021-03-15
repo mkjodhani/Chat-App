@@ -286,7 +286,8 @@ public class Main extends Application
                     @Override
                     public void handle(ActionEvent event)
                     {
-                        if (user.getText().trim().isBlank()) {
+                        if (user.getText().trim().isBlank())
+                        {
                             Button OK = new Button("OK");
                             Text errorMessage = new Text("Enter The Valid Name for Username...");
                             VBox vBox = new VBox(20, errorMessage, OK);
@@ -309,6 +310,7 @@ public class Main extends Application
                         {
                             String pass = password.getText().trim();
                             String username = user.getText().trim();
+                            System.out.println(username + " " + pass);
                             try {
                                 Authentication authentication = new Authentication(username,pass);
                                 authentication.authenticate();
@@ -318,7 +320,8 @@ public class Main extends Application
                                     int valid = authentication.getRemoved();
                                     if(valid == 1)
                                     {
-                                        Runnable runnable = new Runnable() {
+                                        Runnable runnable = new Runnable()
+                                        {
                                             @Override
                                             public void run()
                                             {
@@ -529,7 +532,7 @@ public class Main extends Application
 
                                         Alert alert = new Alert(Alert.AlertType.ERROR);
                                         alert.setTitle("Error!");
-                                        alert.setContentText( username+"already exists!");
+                                        alert.setContentText( username+" already exists!");
                                         alert.show();
                                     }
                                 }
