@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Gossip:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gossip_jar</output-path>
+    <root id="archive" name="Gossip.jar">
+      <element id="module-output" name="Gossip" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/font" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/img" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../javafx-sdk-11.0.2/lib/javafx.base.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../javafx-sdk-11.0.2/lib/javafx.controls.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../javafx-sdk-11.0.2/lib/javafx.graphics.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
