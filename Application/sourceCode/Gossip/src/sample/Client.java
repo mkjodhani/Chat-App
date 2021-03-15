@@ -118,7 +118,7 @@ public class Client implements Runnable
                 @Override
                 public void handle(WindowEvent windowEvent)
                 {
-                    clientSocket.sendData(makeService("Close"));
+                    clientSocket.sendData(ClientSocket.makeService("Close",clientSocket.getHostname()));
                     try {
                         clientSocket.getSocket().close();
                     } catch (IOException e) {
@@ -137,7 +137,7 @@ public class Client implements Runnable
                     {
                         String To = "To : "+ client.getSelectionModel().getSelectedItem().trim();
                         String mssg = msg.getText().trim();
-                        clientSocket.sendData(encoder(hostname.trim(),client.getSelectionModel().getSelectedItem().trim(),msg.getText()));
+                        clientSocket.sendData(ClientSocket.encoder(hostname.trim(),client.getSelectionModel().getSelectedItem().trim(),msg.getText()));
 
                         Text nameTo = new Text(To);
                         nameTo.setWrappingWidth(420);
@@ -201,7 +201,7 @@ public class Client implements Runnable
                     if(clientSocket.getInput().hasNextLine())
                     {
                         String line = clientSocket.getInput().nextLine();
-                        switch (getTypeMessgae(line))
+                        switch (ClientSocket.getTypeMessgae(line))
                         {
                             case "Message":
                                 String finalLine = line;
@@ -210,8 +210,8 @@ public class Client implements Runnable
                                     @Override
                                     public void run()
                                     {
-                                        String To = getFromIndex(finalLine);
-                                        String mssg = decoder(finalLine);
+                                        String To = ClientSocket.getFromIndex(finalLine);
+                                        String mssg = ClientSocket.decoder(finalLine);
                                         Text nameTo = new Text(To);
                                         nameTo.setFont(msgFont);
                                         nameTo.setWrappingWidth(420);
@@ -238,7 +238,7 @@ public class Client implements Runnable
                                     public void run()
                                     {
                                         Button OK  = new Button("OK");
-                                        Text ErrorMessage = new Text(getErrorMessgae(line));
+                                        Text ErrorMessage = new Text(ClientSocket.getErrorMessgae(line));
                                         VBox vBox = new VBox(20,ErrorMessage,OK);
                                         BorderPane errorpan = new BorderPane();
                                         vBox.setAlignment(Pos.CENTER);
@@ -257,7 +257,7 @@ public class Client implements Runnable
                                 });
                                 break;
                             case "Service":
-                                switch (getTypeServiceResponce(line))
+                                switch (ClientSocket.getTypeServiceResponce(line))
                                 {
                                     case "clientList":
                                         Platform.runLater(new Runnable()
@@ -265,9 +265,9 @@ public class Client implements Runnable
                                             @Override
                                             public void run()
                                             {
-                                                if(!getServiceMessage(line).isBlank())
+                                                if(!ClientSocket.getServiceMessage(line).isBlank())
                                                 {
-                                                    for(String name : getServiceMessage(line).split(" "))
+                                                    for(String name : ClientSocket.getServiceMessage (line).split(" "))
                                                     {
                                                         client.getItems().add(name);
                                                     }
@@ -276,17 +276,17 @@ public class Client implements Runnable
                                         });
                                         break;
                                     case "Echo":
-                                        clientSocket.sendData(makeService("Echo"));
+                                        clientSocket.sendData(ClientSocket.makeService("Echo",clientSocket.getHostname()));
                                         break;
                                     case "addMember":
-                                        String newMemeber = getServiceMessage(line);
+                                        String newMemeber = ClientSocket.getServiceMessage(line);
                                         try {
                                             client.getItems().add(newMemeber);
                                         } catch (IllegalStateException e) {
                                         }
                                         break;
                                     case "removeMember":
-                                        String removedMember = getServiceMessage(line);
+                                        String removedMember = ClientSocket.getServiceMessage(line);
                                         try {
                                             Platform.runLater(new Runnable() {
                                                 @Override
@@ -325,68 +325,5 @@ public class Client implements Runnable
         Thread backgroundThread = new Thread(task);
         backgroundThread.setDaemon(true);
         backgroundThread.start();
-    }
-    private String encoder(String from,String to,String str)
-    {
-        return "--"+from+"--"+to+"--"+str;
-    }
-    private String decoder(String str)
-    {
-        String ans = str;
-        Matcher matcher = pattern.matcher(str);
-        if(matcher.find())
-        {
-            ans =  str.replaceFirst(matcher.group(0),"");
-        }
-        return ans;
-    }
-    private static String getFromIndex(String string)
-    {
-        String name = null;
-        Matcher matcher = pattern.matcher(string);
-        if(matcher.find())
-            name =  matcher.group(2);
-        return  name;
-    }
-    private static String getTypeMessgae(String string)
-    {
-        String name = "Echo";
-        Matcher matcher = pattern.matcher(string);
-        if(matcher.find())
-            name = "Message";
-        else if(errorPattern.matcher(string).find())
-            name = "Error";
-        else if(servicePattern.matcher(string).find())
-            name = "Service";
-        return name;
-    }
-    private static String getErrorMessgae(String string)
-    {
-        Matcher matcher = errorPattern.matcher(string);
-        matcher.find();
-        return string.replace(matcher.group(1),"");
-    }
-    public Socket getSocket()
-    {
-        return clientSocket.getSocket();
-    }
-    private String makeService(String string)
-    {
-        return "#-*-#--"+hostname+"--"+string+"--";
-    }
-    private static String getServiceMessage(String string)
-    {
-        Matcher matcher = servicePattern.matcher(string);
-        matcher.find();
-        return string.replace(matcher.group(0),"");
-    }
-    private String getTypeServiceResponce(String string)
-    {
-        Matcher matcher = servicePattern.matcher(string);
-        matcher.find();
-        return matcher.group(2);
-    }
-    private String makeFileName(File file) throws IOException {
-        return "^\\*-\\*-\\*--"+file.getName()+"--"+ Files.size(Path.of(file.getPath())) +"--";
     }
 }
