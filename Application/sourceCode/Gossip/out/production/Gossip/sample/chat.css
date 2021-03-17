@@ -1,0 +1,10 @@
+
+.text {
+    -fx-font-family: "Roboto";
+}
+.custom-dashed-border
+{
+    -fx-background: white;
+    -fx-background-color: white;
+    -fx-opacity :0.25;
+}
