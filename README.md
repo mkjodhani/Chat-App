@@ -1,5 +1,6 @@
 # Chat Application 
-![](https://img.shields.io/youtube/views/jeikvlhgctI?style=social)
+
+[![](https://img.shields.io/youtube/views/jeikvlhgctI?style=social)](https://youtu.be/jeikvlhgctI)
 
 - [Installer](https://github.com/mkjodhani/Chat-App/raw/main/Installer.jar)
 
